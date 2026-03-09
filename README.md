@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Figma→Code 자동 퍼블리싱 시스템
 
-## Getting Started
+Figma 디자인을 Next.js + ShadcnUI + TailwindCSS 코드로 자동 변환하는 퍼블리싱 워크플로우 시스템입니다.
 
-First, run the development server:
+## 기술 스택
+
+- **프레임워크**: Next.js 16 (App Router, Turbopack)
+- **UI**: React 19 + ShadcnUI (new-york 스타일)
+- **스타일링**: TailwindCSS v4
+- **아이콘**: lucide-react
+- **테마**: next-themes (다크모드 지원)
+- **언어**: TypeScript
+
+## 시작하기
 
 ```bash
+# 의존성 설치
+npm install
+
+# 개발 서버 실행
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[http://localhost:3000](http://localhost:3000)에서 결과를 확인할 수 있습니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 슬래시 커맨드
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Claude Code에서 사용할 수 있는 슬래시 커맨드입니다.
 
-## Learn More
+| 커맨드 | 설명 |
+|--------|------|
+| `/figma-to-code` | Figma 디자인을 분석하여 코드로 자동 변환 |
+| `/verify-design` | 구현된 페이지를 Playwright로 시각 검증 |
+| `/add-component` | ShadcnUI 컴포넌트 검색 및 설치 |
+| `/sync-design-tokens` | Figma 디자인 토큰을 CSS 변수와 동기화 |
+| `/git:branch` | 브랜치 생성, 전환, 삭제 관리 |
+| `/git:commit` | 컨벤셔널 커밋 메시지로 커밋 생성 |
+| `/git:merge` | 브랜치 병합 및 충돌 해결 |
+| `/git:pr` | GitHub Pull Request 생성 및 관리 |
 
-To learn more about Next.js, take a look at the following resources:
+## 프로젝트 구조
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+app/                → 페이지 및 라우팅 (App Router)
+components/ui/      → ShadcnUI 컴포넌트 (자동 생성)
+components/layout/  → 레이아웃 컴포넌트 (Header, Footer, Nav)
+components/features/→ 기능별 커스텀 컴포넌트
+lib/                → 유틸리티, 상수, 헬퍼 함수
+hooks/              → 커스텀 훅
+public/             → 정적 에셋
+docs/               → 프로젝트 문서
+.claude/            → Claude Code 설정 (커맨드, 에이전트, 훅)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Figma→Code 워크플로우
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+1. Figma MCP       → 디자인 데이터 추출
+2. Sequential Thinking → 컴포넌트 구조 분석
+3. ShadcnUI MCP    → 컴포넌트 매핑 및 설치
+4. Context7 MCP    → API 문서 참조
+5. 코드 생성        → TSX + TailwindCSS
+6. Playwright MCP  → 시각 검증 (데스크톱 + 모바일)
+```
