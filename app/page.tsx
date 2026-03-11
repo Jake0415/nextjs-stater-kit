@@ -1,52 +1,56 @@
-import Link from "next/link";
 import {
-  Blocks,
-  Code2,
-  Moon,
-  Paintbrush,
-  Smartphone,
+  CloudUpload,
+  ScanSearch,
+  BrainCircuit,
+  Database,
+  CheckCircle,
   Zap,
+  Network,
 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+const featureCards = [
+  {
+    icon: CloudUpload,
+    title: "PDF 업로드",
+    description:
+      "오브젝트 스토리지를 활용하여 보안이 강화된 클라우드 저장소에 파일을 안전하게 업로드합니다.",
+  },
+  {
+    icon: ScanSearch,
+    title: "AI OCR 추출",
+    description:
+      "AI 에이전트가 복잡한 문서 내 텍스트, 테이블, 이미지를 정확하게 분류하여 정교하게 추출합니다.",
+  },
+  {
+    icon: BrainCircuit,
+    title: "LLM 정제",
+    description:
+      "OCR 결과물을 거대언어모델(LLM)로 정규화 및 가공하여 신뢰도 높은 정제 데이터를 생성합니다.",
+  },
+  {
+    icon: Database,
+    title: "메타데이터 저장",
+    description:
+      "페이지 정보 및 키워드 기반 색인을 생성하여 문서 검색 및 데이터 활용도를 극대화합니다.",
+  },
+];
 
-const features = [
+const highlights = [
+  {
+    icon: CheckCircle,
+    title: "AI 에이전트 자동화",
+    subtitle: "지능형 자동 데이터 처리",
+  },
   {
     icon: Zap,
-    title: "Next.js 16",
-    description: "App Router, 서버 컴포넌트, Turbopack으로 빠른 개발 환경",
+    title: "벡터 데이터 전환",
+    subtitle: "RAG 시스템 임베딩 지원",
   },
   {
-    icon: Paintbrush,
-    title: "TailwindCSS v4",
-    description: "유틸리티 퍼스트 CSS 프레임워크로 빠른 스타일링",
-  },
-  {
-    icon: Blocks,
-    title: "ShadcnUI",
-    description: "접근성을 고려한 재사용 가능한 컴포넌트 라이브러리",
-  },
-  {
-    icon: Code2,
-    title: "TypeScript",
-    description: "엄격한 타입 검사로 안정적인 코드 작성",
-  },
-  {
-    icon: Smartphone,
-    title: "반응형 디자인",
-    description: "모바일부터 데스크톱까지 완벽한 반응형 레이아웃",
-  },
-  {
-    icon: Moon,
-    title: "다크모드",
-    description: "시스템 설정 연동 및 수동 전환 지원",
+    icon: Network,
+    title: "청킹 최적화",
+    subtitle: "LLM 기반 문맥 보존 분할",
   },
 ];
 
@@ -54,73 +58,66 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* 히어로 섹션 */}
-      <section className="flex flex-col items-center gap-8 px-4 py-24 text-center md:py-32">
-        <Badge variant="secondary" className="text-sm">
-          v0.1.0 — Next.js 16 + React 19
-        </Badge>
-        <h1 className="max-w-3xl text-4xl font-bold tracking-tight md:text-6xl">
-          모던 웹 프로젝트를
-          <br />
-          빠르게 시작하세요
-        </h1>
-        <p className="text-muted-foreground max-w-2xl text-lg md:text-xl">
-          Next.js, TailwindCSS, ShadcnUI가 사전 구성된 스타터킷으로 아이디어
-          구현에만 집중하세요.
-        </p>
-        <div className="flex flex-col gap-4 sm:flex-row">
-          <Button asChild size="lg">
-            <Link href="#features">시작하기</Link>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <Link href="https://github.com">GitHub</Link>
-          </Button>
+      <section className="relative overflow-hidden">
+        {/* 배경 블러 효과 */}
+        <div className="pointer-events-none absolute -left-[5%] -top-[5%] bottom-[55%] right-[55%] rounded-full bg-brand/5 blur-[60px]" />
+        <div className="pointer-events-none absolute -right-[5%] bottom-1/2 left-[65%] top-[10%] rounded-full bg-brand-light/5 blur-[50px]" />
+
+        <div className="mx-auto flex max-w-3xl flex-col items-center gap-8 px-4 py-20 text-center md:py-28">
+          <h1 className="text-5xl font-black leading-tight tracking-tighter md:text-7xl lg:text-8xl">
+            대규모 지능형
+            <br />
+            <span className="bg-gradient-to-r from-brand to-brand-light bg-clip-text text-transparent">
+              데이터 추출
+            </span>
+          </h1>
+          <p className="max-w-xl text-lg font-medium text-muted-foreground md:text-xl">
+            비정형 PDF 문서를 최신 AI 기술을 통해 즉시 활용 가능한 정제된
+            데이터로 변환하여 업무의 가치를 높이세요.
+          </p>
         </div>
       </section>
 
       {/* 기능 카드 섹션 */}
-      <section
-        id="features"
-        className="container mx-auto px-4 py-16 md:py-24"
-      >
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-            포함된 기능
-          </h2>
-          <p className="text-muted-foreground mt-4 text-lg">
-            프로덕션 레벨의 웹 애플리케이션을 위한 핵심 구성 요소
-          </p>
-        </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => (
-            <Card key={feature.title}>
-              <CardHeader>
-                <feature.icon className="text-primary mb-2 h-10 w-10" />
-                <CardTitle>{feature.title}</CardTitle>
-                <CardDescription>{feature.description}</CardDescription>
-              </CardHeader>
+      <section className="mx-auto w-full max-w-5xl px-4 pb-16 sm:px-6">
+        <div className="grid gap-5 sm:grid-cols-2">
+          {featureCards.map((card) => (
+            <Card
+              key={card.title}
+              className="group overflow-hidden border-border/40 bg-card/80 shadow-none transition-shadow hover:shadow-md"
+            >
+              <CardContent className="flex flex-col items-center px-8 py-10 text-center">
+                <div className="mb-6 flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-brand-light shadow-lg shadow-brand/20">
+                  <card.icon className="size-8 text-white" strokeWidth={1.5} />
+                </div>
+                <h3 className="mb-3 text-xl font-black tracking-tight">
+                  {card.title}
+                </h3>
+                <p className="max-w-[280px] text-sm leading-relaxed text-muted-foreground">
+                  {card.description}
+                </p>
+              </CardContent>
             </Card>
           ))}
         </div>
       </section>
 
-      {/* CTA 섹션 */}
-      <section
-        id="docs"
-        className="bg-muted/50 flex flex-col items-center gap-6 px-4 py-16 text-center md:py-24"
-      >
-        <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-          지금 바로 시작하세요
-        </h2>
-        <p className="text-muted-foreground max-w-xl text-lg">
-          공식 문서를 참고하여 프로젝트를 확장해 보세요.
-        </p>
-        <div className="flex flex-col gap-4 sm:flex-row">
-          <Button asChild size="lg">
-            <Link href="https://nextjs.org/docs">Next.js 문서</Link>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <Link href="https://ui.shadcn.com">ShadcnUI</Link>
-          </Button>
+      {/* 하단 특장점 */}
+      <section className="border-t border-border/40">
+        <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-12 sm:flex-row sm:justify-center sm:gap-16 sm:px-6">
+          {highlights.map((item) => (
+            <div key={item.title} className="flex items-center gap-4">
+              <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-brand/10">
+                <item.icon className="size-7 text-brand" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h4 className="text-base font-bold">{item.title}</h4>
+                <p className="text-sm text-muted-foreground">
+                  {item.subtitle}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>

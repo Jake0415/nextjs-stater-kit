@@ -69,12 +69,42 @@ sequential-thinking MCP를 사용하여 다음을 분석한다:
 
 ### 5단계: 코드 생성
 
+> ⚠️ **경고**: Figma에 정의된 디자인을 100% 그대로 구현해야 한다.
+> Figma에 없는 요소를 추가하거나, Figma의 레이아웃을 임의로 변경하는 것은 엄격히 금지된다.
+> 의심스러운 경우 `get_screenshot`으로 Figma 스크린샷을 재확인하라.
+
 다음 규칙을 따라 코드를 생성한다:
 - 파일 위치: `app/` (페이지) 또는 `components/features/` (컴포넌트)
 - TailwindCSS 유틸리티 클래스만 사용 (인라인 스타일 금지)
 - 반응형 디자인: 모바일 퍼스트 (`sm:`, `md:`, `lg:`)
 - 다크모드 지원: CSS 변수 또는 `dark:` 프리픽스
 - 접근성: 시맨틱 HTML, aria 속성 포함
+
+#### 링크/네비게이션 변환 규칙
+
+**클릭 요소 식별:**
+- Figma 레이어명에 `Button`, `CTA`, `Link`, `Nav`, `Tab`, `Breadcrumb` 포함 노드
+- 텍스트가 PRD 라우팅 테이블 페이지명과 일치하는 노드
+- 카드/리스트 행 내 반복되는 클릭 암시 구조
+
+**링크 패턴 선택 기준:**
+
+| 상황 | 패턴 |
+|------|------|
+| GNB/사이드바/Breadcrumb | 순수 `<Link>` |
+| CTA 버튼, 주요 액션 | `<Button asChild><Link>` |
+| 테이블 행/카드 전체 클릭 | `<Link className="block">` 래핑 |
+| 외부 링크 | `<Link target="_blank" rel="noopener noreferrer">` |
+| 폼 제출 후 이동 | `useRouter().push()` |
+
+**라우트 결정:**
+1. `lib/routes.ts`의 `ROUTES` 상수를 import하여 사용 (하드코딩 경로 금지)
+2. 동적 라우트는 `ROUTES.FILE_OCR(doc.id)` 형태로 호출
+3. 매칭 불가 시 `href="#"` + `{/* TODO: 라우트 매핑 필요 */}` 주석
+
+**active 상태:**
+- `usePathname()` 기반, `pathname === href || pathname.startsWith(href + "/")` 패턴 적용
+- 참조 구현: `components/layout/header.tsx`
 
 **PRD 컨텍스트가 있는 경우 추가 생성:**
 - UI 마크업에 데이터 요구사항을 주석으로 표시

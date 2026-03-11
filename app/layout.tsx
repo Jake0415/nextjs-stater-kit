@@ -18,9 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "StarterKit - 모던 웹 스타터킷",
+  title: "MH OCR AI - 대규모 지능형 데이터 추출",
   description:
-    "Next.js, TailwindCSS, ShadcnUI로 구성된 모던 웹 애플리케이션 스타터킷",
+    "비정형 PDF 문서를 최신 AI 기술을 통해 즉시 활용 가능한 정제된 데이터로 변환하는 OCR 플랫폼",
 };
 
 export default function RootLayout({

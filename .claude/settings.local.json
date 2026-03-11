@@ -4,7 +4,79 @@
       "WebSearch",
       "Bash(npm install:*)",
       "Bash(npm run:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(npm audit:*)",
+      "Bash(ls:*)",
+      "Bash(claude mcp:*)",
+      "Bash(cp:*)",
+      "Bash(node:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "mcp__shrimp-task-manager__init_project_rules",
+      "mcp__shrimp-task-manager__plan_task",
+      "mcp__shrimp-task-manager__process_thought",
+      "mcp__shrimp-task-manager__analyze_task",
+      "mcp__shrimp-task-manager__reflect_task",
+      "mcp__shrimp-task-manager__split_tasks",
+      "mcp__shrimp-task-manager__get_task_detail",
+      "Read(//c/claude-code/nextjs-figma-starter-kit/$APPDATA/Claude/**)",
+      "Read(//c/claude-code/nextjs-figma-starter-kit/$HOME/**)",
+      "mcp__shrimp-task-manager__list_tasks",
+      "mcp__figma__get_metadata",
+      "mcp__figma__get_screenshot",
+      "Bash(npx shadcn@latest:*)",
+      "mcp__figma__get_design_context",
+      "Bash(npx next:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs",
+      "Bash(wc -l /c/claude-code/nextjs-figma-starter-kit/docs/*.md)",
+      "Bash(grep -n \"^### \\\\\\(GET\\\\|POST\\\\|PATCH\\\\|DELETE\\\\|PUT\\\\\\) \\\\`/api/\" \"C:/claude-code/nextjs-figma-starter-kit/docs/API-ENDPOINTS.md\" | head -50)",
+      "Bash(grep -n \"^### \\\\\\(GET\\\\|POST\\\\|PATCH\\\\|DELETE\\\\|PUT\\\\\\) \\\\`/api/\" \"C:/claude-code/nextjs-figma-starter-kit/docs/API-ENDPOINTS.md\" | head -5 && grep -n \"'/api/\" \"C:/claude-code/nextjs-figma-starter-kit/docs/API-ENDPOINTS.md\" | head -10)",
+      "Bash(find /c/claude-code/nextjs-figma-starter-kit/app -type f -name \"*.tsx\" -o -name \"*.ts\" 2>/dev/null | sort)",
+      "Bash(find /c/claude-code/nextjs-figma-starter-kit/components -type f -name \"*.tsx\" 2>/dev/null | sort)",
+      "Bash(find /c/claude-code/nextjs-figma-starter-kit/lib -type f -name \"*.ts\" -o -name \"*.tsx\" 2>/dev/null | sort)",
+      "mcp__shrimp-task-manager__update_task",
+      "mcp__shrimp-task-manager__verify_task",
+      "mcp__shrimp-task-manager__execute_task",
+      "Read(//c/Users/eun/AppData/Local/Temp/claude/C--claude-code-nextjs-figma-starter-kit/tasks/**)",
+      "Bash(npx tsc:*)",
+      "Bash(cd C:/claude-code/nextjs-figma-starter-kit && npx tsc --noEmit 2>&1; echo \"EXIT: $?\")",
+      "Bash(sleep 5 && curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_console_messages",
+      "Bash(grep -r \"기간 설정\\\\|date-picker\\\\|DatePicker\\\\|DateRange\" /c/claude-code/nextjs-figma-starter-kit --include=\"*.tsx\" --include=\"*.ts\" 2>/dev/null | head -20)",
+      "Bash(grep -r \"popover\\\\|calendar\\\\|date.*picker\" /c/claude-code/nextjs-figma-starter-kit/components/ui --include=\"*.tsx\" 2>/dev/null | head -5)",
+      "Bash(python -c \"\nimport json\nwith open\\(r'C:\\\\Users\\\\eun\\\\.claude\\\\projects\\\\C--claude-code-nextjs-figma-starter-kit\\\\4e302356-86d4-4f83-9758-4b61d1476a12\\\\tool-results\\\\toolu_01Lj6TNW6213vbPdWyHNBUZ6.json', 'r', encoding='utf-8'\\) as f:\n    data = json.load\\(f\\)\ncode = data[0]['text']\nlines = code.split\\('\\\\n'\\)\nfor i in range\\(250, min\\(len\\(lines\\), 500\\)\\):\n    print\\(f'{i}: {lines[i][:300]}'\\)\n\" 2>&1)",
+      "mcp__playwright__browser_press_key",
+      "mcp__playwright__browser_file_upload",
+      "Bash(cd \"C:\\\\Users\\\\eun\\\\.claude\\\\projects\\\\C--claude-code-nextjs-figma-starter-kit\\\\0750c1db-3a60-4f8a-8404-822745930132\\\\tool-results\" && cat mcp-figma-get_metadata-1773131061315.txt | python -c \"import sys,json; data=json.load\\(sys.stdin\\); text=data[0]['text']; [print\\(line\\) for line in text.split\\('\\\\n'\\) if 'New File Upload' in line]\" 2>/dev/null || cat mcp-figma-get_metadata-1773131061315.txt | grep -oP '\"name\":\"[^\"]*New File Upload[^\"]*\"[^}]*\"id\":\"[^\"]*\"' | head -5)",
+      "Bash(pkill -f \"next dev\" 2>/dev/null; echo \"done\")"
+    ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/notification-hook.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/stop-hook.sh"
+          }
+        ]
+      }
     ]
   }
 }

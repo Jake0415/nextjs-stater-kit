@@ -1,0 +1,20 @@
+// PRD 라우팅 테이블 기반 라우트 상수 맵
+export const ROUTES = {
+  HOME: "/",
+  LOGIN: "/login",
+  DASHBOARD: "/dashboard",
+  FILES: "/files",
+  FILE_DETAIL: (id: string) => `/files/${id}`,
+  FILE_EDIT: (id: string) => `/files/${id}/edit`,
+  FILE_UPLOAD: "/files/upload",
+  FILE_VERSION_UPDATE: "/files/version",
+  FILE_VERSION: (id: string) => `/files/${id}/version`,
+  FILE_OCR: (id: string) => `/files/${id}/ocr`,
+  FILE_RESULT: (id: string) => `/files/${id}/result`,
+  SEARCH: "/search",
+  ANALYTICS: "/analytics",
+  ANALYTICS_DETAIL: "/analytics/detail",
+  SETTINGS: "/settings",
+  SETTINGS_LOGS: "/settings/logs",
+  ADMIN_USERS: "/admin/users",
+} as const;
