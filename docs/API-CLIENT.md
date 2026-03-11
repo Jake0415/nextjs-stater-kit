@@ -9,7 +9,7 @@
 ## 디렉토리 구조
 
 ```
-lib/
+front-end/lib/
 ├── api/
 │   ├── client.ts          # HTTP 클라이언트 (fetch 래퍼, JWT, 에러 핸들링)
 │   ├── types.ts           # API 요청/응답 타입 (DTO)
@@ -53,14 +53,14 @@ NEXT_PUBLIC_API_URL=http://localhost:8000    # 백엔드 API 베이스 URL
 NEXT_PUBLIC_API_MODE=mock                    # mock | real
 ```
 
-- `mock` — `lib/services/mock/` 구현 사용, 네트워크 요청 없음
-- `real` — `lib/services/real/` 구현 사용, `NEXT_PUBLIC_API_URL`로 요청
+- `mock` — `front-end/lib/services/mock/` 구현 사용, 네트워크 요청 없음
+- `real` — `front-end/lib/services/real/` 구현 사용, `NEXT_PUBLIC_API_URL`로 요청
 
 ---
 
 ## HTTP 클라이언트 설계
 
-### `lib/api/client.ts`
+### `front-end/lib/api/client.ts`
 
 ```typescript
 // 핵심 구조 (구현 시 참조)
@@ -94,7 +94,7 @@ interface ApiError {
 
 ## 서비스 추상화 패턴
 
-### 1. 인터페이스 정의 (`lib/services/interface.ts`)
+### 1. 인터페이스 정의 (`front-end/lib/services/interface.ts`)
 
 ```typescript
 // 각 도메인별 서비스 인터페이스
@@ -136,19 +136,19 @@ interface IAuthService {
 }
 ```
 
-### 2. Mock 구현 (`lib/services/mock/`)
+### 2. Mock 구현 (`front-end/lib/services/mock/`)
 
-- `lib/mock/index.ts`의 기존 Mock 데이터 활용
+- `front-end/lib/mock/index.ts`의 기존 Mock 데이터 활용
 - `setTimeout`으로 네트워크 지연 시뮬레이션 (200~500ms)
 - 상태 변경은 메모리에서 처리 (페이지 새로고침 시 초기화)
 
-### 3. Real 구현 (`lib/services/real/`)
+### 3. Real 구현 (`front-end/lib/services/real/`)
 
-- `lib/api/client.ts`의 HTTP 클라이언트 사용
-- `lib/api/endpoints.ts`의 엔드포인트 상수 참조
+- `front-end/lib/api/client.ts`의 HTTP 클라이언트 사용
+- `front-end/lib/api/endpoints.ts`의 엔드포인트 상수 참조
 - 응답 DTO → 도메인 모델 변환
 
-### 4. 팩토리 (`lib/services/index.ts`)
+### 4. 팩토리 (`front-end/lib/services/index.ts`)
 
 ```typescript
 // 환경변수에 따라 서비스 구현체 선택
@@ -167,7 +167,7 @@ export function getDocumentService(): IDocumentService {
 
 ## Server Actions 패턴
 
-### `lib/actions/document.actions.ts`
+### `front-end/lib/actions/document.actions.ts`
 
 ```typescript
 "use server";
@@ -195,7 +195,7 @@ export async function uploadDocument(formData: FormData) {
    NEXT_PUBLIC_API_URL=http://api.example.com
    NEXT_PUBLIC_API_MODE=real
    ```
-3. `lib/services/real/` 구현체가 모든 인터페이스를 충족하는지 확인
+3. `front-end/lib/services/real/` 구현체가 모든 인터페이스를 충족하는지 확인
 4. 개발 서버 재시작 (`npm run dev`)
 
 ### 점진적 전환

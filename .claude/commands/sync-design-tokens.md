@@ -26,7 +26,7 @@ Figma MCP를 사용하여 다음 디자인 토큰을 추출:
 
 ### 2단계: 현재 CSS 변수 분석
 
-`app/globals.css`에서 현재 정의된 CSS 변수를 파싱:
+`front-end/app/globals.css`에서 현재 정의된 CSS 변수를 파싱:
 - `:root` (라이트 모드) 변수
 - `.dark` (다크 모드) 변수
 - ShadcnUI 표준 변수명과의 매핑 관계
@@ -47,7 +47,7 @@ Figma 토큰과 현재 CSS 변수를 비교하여 보고:
 ### 5단계: CSS 변수 업데이트
 
 승인 후:
-- `app/globals.css`의 `:root` 및 `.dark` 섹션 업데이트
+- `front-end/app/globals.css`의 `:root` 및 `.dark` 섹션 업데이트
 - HSL 형식 유지 (ShadcnUI 호환)
 - 변경 전 백업 내용을 사용자에게 표시
 

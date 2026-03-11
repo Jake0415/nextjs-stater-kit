@@ -32,8 +32,8 @@ $ARGUMENTS — PRD 경로 또는 데이터 모델 설명 (예: "docs/PRD.md")
 ### 2단계: 스택 감지 및 선택
 
 - 프로젝트에 이미 설치된 ORM 확인:
-  - `prisma/` 디렉토리 존재 → Prisma
-  - `drizzle.config.ts` 존재 → Drizzle
+  - `front-end/prisma/` 디렉토리 존재 → Prisma
+  - `front-end/drizzle.config.ts` 존재 → Drizzle
   - `@supabase/supabase-js` 설치 → Supabase
 - 없으면 사용자에게 선택 요청 (Prisma / Drizzle / Supabase 중)
 - Context7로 해당 ORM 최신 API 확인
@@ -43,19 +43,19 @@ $ARGUMENTS — PRD 경로 또는 데이터 모델 설명 (예: "docs/PRD.md")
 감지된 ORM에 맞는 스키마 파일을 생성한다:
 
 **Prisma**:
-- `prisma/schema.prisma` 생성/수정
+- `front-end/prisma/schema.prisma` 생성/수정
 - 모델, 관계, enum 정의
-- DB 클라이언트: `lib/db.ts` (PrismaClient 싱글턴)
+- DB 클라이언트: `front-end/lib/db.ts` (PrismaClient 싱글턴)
 
 **Drizzle**:
-- `lib/db/schema.ts` 생성/수정
+- `front-end/lib/db/schema.ts` 생성/수정
 - 테이블, 관계 정의
-- DB 클라이언트: `lib/db.ts` (Drizzle 인스턴스)
+- DB 클라이언트: `front-end/lib/db.ts` (Drizzle 인스턴스)
 
 **Supabase**:
-- SQL 마이그레이션 파일 생성 (`supabase/migrations/`)
+- SQL 마이그레이션 파일 생성 (`front-end/supabase/migrations/`)
 - 타입 생성 안내 (`npx supabase gen types`)
-- DB 클라이언트: `lib/db.ts` (Supabase 클라이언트)
+- DB 클라이언트: `front-end/lib/db.ts` (Supabase 클라이언트)
 
 ### 4단계: 마이그레이션 안내
 
@@ -64,4 +64,4 @@ $ARGUMENTS — PRD 경로 또는 데이터 모델 설명 (예: "docs/PRD.md")
   - Drizzle: `npx drizzle-kit push`
   - Supabase: `npx supabase db push`
 - 시드 데이터 생성 제안 (필요 시)
-- `.env` 파일에 필요한 환경 변수 안내
+- `front-end/.env` 파일에 필요한 환경 변수 안내

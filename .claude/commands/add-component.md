@@ -31,7 +31,8 @@ $ARGUMENTS — 컴포넌트 이름 또는 검색 키워드 (예: "table", "accor
 
 1. `get_add_command_for_items`로 설치 명령어 생성
 2. 명령어 실행하여 컴포넌트 설치
-3. 설치된 파일 확인 (`components/ui/` 디렉토리)
+3. 설치된 파일 확인 (`front-end/components/ui/` 디렉토리)
+   - **주의**: `front-end/` 디렉토리에서 `npx shadcn@latest add` 명령어를 실행해야 함
 
 ### 4단계: 사용 가이드
 

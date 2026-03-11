@@ -74,7 +74,7 @@ sequential-thinking MCP를 사용하여 다음을 분석한다:
 > 의심스러운 경우 `get_screenshot`으로 Figma 스크린샷을 재확인하라.
 
 다음 규칙을 따라 코드를 생성한다:
-- 파일 위치: `app/` (페이지) 또는 `components/features/` (컴포넌트)
+- 파일 위치: `front-end/app/` (페이지) 또는 `front-end/components/features/` (컴포넌트)
 - TailwindCSS 유틸리티 클래스만 사용 (인라인 스타일 금지)
 - 반응형 디자인: 모바일 퍼스트 (`sm:`, `md:`, `lg:`)
 - 다크모드 지원: CSS 변수 또는 `dark:` 프리픽스
@@ -98,13 +98,13 @@ sequential-thinking MCP를 사용하여 다음을 분석한다:
 | 폼 제출 후 이동 | `useRouter().push()` |
 
 **라우트 결정:**
-1. `lib/routes.ts`의 `ROUTES` 상수를 import하여 사용 (하드코딩 경로 금지)
+1. `front-end/lib/routes.ts`의 `ROUTES` 상수를 import하여 사용 (하드코딩 경로 금지)
 2. 동적 라우트는 `ROUTES.FILE_OCR(doc.id)` 형태로 호출
 3. 매칭 불가 시 `href="#"` + `{/* TODO: 라우트 매핑 필요 */}` 주석
 
 **active 상태:**
 - `usePathname()` 기반, `pathname === href || pathname.startsWith(href + "/")` 패턴 적용
-- 참조 구현: `components/layout/header.tsx`
+- 참조 구현: `front-end/components/layout/header.tsx`
 
 **PRD 컨텍스트가 있는 경우 추가 생성:**
 - UI 마크업에 데이터 요구사항을 주석으로 표시
