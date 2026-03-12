@@ -10,11 +10,13 @@
 - **자동 API 문서**: `/docs` (Swagger UI), `/redoc`
 - **데이터 검증**: Pydantic
 
-## 데이터베이스
+## 데이터베이스 (Docker 컨테이너)
 
-- **PostgreSQL**: document, metadata, user 등 관계형 데이터
-- **MongoDB**: OCR 결과 raw data (컬렉션: documents, toc_nodes, retrieval_chunks, generation_chunks, entities)
-- **MinIO**: 이미지 파일 오브젝트 스토리지
+| 서비스 | 컨테이너명 | 포트 | 용도 |
+|--------|-----------|------|------|
+| PostgreSQL 18 | `mh-ocr-postgres` | 5432 | document, metadata, user 등 관계형 데이터 |
+| MongoDB 8 | `mh-ocr-mongo` | 27017 | OCR 결과 raw data (컬렉션: documents, toc_nodes, retrieval_chunks, generation_chunks, entities) |
+| MinIO | `mh-ocr-minio` | 9000/9001 | 이미지 파일 오브젝트 스토리지 (버킷: documents) |
 
 ## 실행 방법
 

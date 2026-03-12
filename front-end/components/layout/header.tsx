@@ -2,15 +2,38 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid } from "lucide-react";
+import { LayoutGrid, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { mainNavLinks, externalLinks } from "@/lib/navigation";
-import { currentUser } from "@/lib/mock";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useAuth } from "@/components/providers/auth-provider";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { MobileNav } from "./mobile-nav";
+
+// SSO 역할 → 표시 라벨
+function getRoleLabel(role: string): string {
+  switch (role) {
+    case "SUPER_ADMIN":
+      return "Super-Admin";
+    case "ADMIN":
+      return "Admin";
+    case "USER":
+      return "User";
+    default:
+      return role;
+  }
+}
 
 export function Header() {
   const pathname = usePathname();
+  const { user, isLoading, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-md">
@@ -59,21 +82,48 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3 border-l border-border/40 pl-6">
-            <div className="text-right">
-              <p className="text-sm font-semibold leading-none">
-                {currentUser.name}
-              </p>
-              <p className="mt-1 text-xs font-medium text-brand">
-                {currentUser.role === "admin" ? "관리자" : "사용자"}
-              </p>
+          {!isLoading && user && (
+            <div className="flex items-center gap-3 border-l border-border/40 pl-6">
+              <div className="text-right">
+                <p className="text-sm font-semibold leading-none">
+                  {user.name}
+                </p>
+                <p className="mt-1 text-xs font-medium text-brand">
+                  {getRoleLabel(user.role)}
+                </p>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="cursor-pointer rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                    <Avatar className="size-10 border border-border">
+                      {user.profileImage && (
+                        <AvatarImage
+                          src={user.profileImage}
+                          alt={user.name}
+                        />
+                      )}
+                      <AvatarFallback className="bg-muted text-xs font-bold">
+                        {user.name.slice(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>
+                    <p className="text-sm font-semibold">{user.name}</p>
+                    <p className="text-xs font-normal text-muted-foreground">
+                      {user.email}
+                    </p>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout}>
+                    <LogOut className="mr-2 size-4" />
+                    로그아웃
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
-            <Avatar className="size-10 border border-border">
-              <AvatarFallback className="bg-muted text-xs font-bold">
-                {currentUser.name.slice(0, 2)}
-              </AvatarFallback>
-            </Avatar>
-          </div>
+          )}
         </div>
 
         {/* 모바일 메뉴 */}
