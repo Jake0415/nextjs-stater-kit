@@ -17,8 +17,8 @@ interface FileTableRowProps {
 
 // 상태별 액션: OCR 추출 / 추출 완료 / 작업중
 function StatusAction({ doc }: { doc: Document }) {
-  // OCR 추출 대상: uploaded, ocr_failed
-  if (doc.status === "uploaded" || doc.status === "ocr_failed") {
+  // OCR 추출 대상: uploaded, ocr_failed, draft(upload_fail)
+  if (doc.status === "uploaded" || doc.status === "ocr_failed" || doc.status === "draft") {
     return (
       <div className="flex items-center justify-end">
         <Button

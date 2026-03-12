@@ -54,9 +54,9 @@ const filterGroup1: { value: FilterTab; label: string }[] = [
 ];
 
 const filterGroup2: { value: FilterTab; label: string }[] = [
-  { value: "uploaded", label: "미추출" },
-  { value: "ocr_completed", label: "완료됨" },
-  { value: "ocr_processing", label: "처리중" },
+  { value: "uploaded", label: "OCR 추출" },
+  { value: "ocr_completed", label: "추출 완료" },
+  { value: "ocr_processing", label: "작업중" },
 ];
 
 // 상태별 배지 스타일

@@ -68,11 +68,11 @@ export default function FileEditPage() {
   // TODO: 실제 서버 파일 URL로 교체 (예: /api/v1/files/{id}/download)
   const fileViewUrl = `/api/v1/files/${doc.id}/view`;
 
-  // 날짜 포맷 (한국어 스타일)
+  // 날짜 포맷 (축약 스타일)
   const formattedDate = new Date(doc.uploadedAt).toLocaleDateString("ko-KR", {
     year: "numeric",
-    month: "long",
-    day: "numeric",
+    month: "2-digit",
+    day: "2-digit",
   });
 
   return (

@@ -56,7 +56,9 @@
       "Bash(cd \"C:\\\\Users\\\\eun\\\\.claude\\\\projects\\\\C--claude-code-nextjs-figma-starter-kit\\\\0750c1db-3a60-4f8a-8404-822745930132\\\\tool-results\" && cat mcp-figma-get_metadata-1773131061315.txt | python -c \"import sys,json; data=json.load\\(sys.stdin\\); text=data[0]['text']; [print\\(line\\) for line in text.split\\('\\\\n'\\) if 'New File Upload' in line]\" 2>/dev/null || cat mcp-figma-get_metadata-1773131061315.txt | grep -oP '\"name\":\"[^\"]*New File Upload[^\"]*\"[^}]*\"id\":\"[^\"]*\"' | head -5)",
       "Bash(pkill -f \"next dev\" 2>/dev/null; echo \"done\")",
       "Bash(git reset:*)",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000 2>/dev/null || echo \"not running\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000 2>&1 || echo \"not ready\")"
     ]
   },
   "hooks": {

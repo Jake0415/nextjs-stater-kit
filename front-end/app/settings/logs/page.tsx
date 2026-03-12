@@ -41,16 +41,18 @@ const badgeStyles: Record<string, { bg: string; border: string; text: string; la
 
 // 확장된 사용이력 mock (Figma 디자인에 맞추어)
 const extendedLogs = [
-  { id: "el1", userId: "admin_01", type: "ocr", timestamp: "2023-10-27T14:30:05Z" },
-  { id: "el2", userId: "user_03", type: "upload", timestamp: "2023-10-27T14:15:22Z" },
-  { id: "el3", userId: "admin_01", type: "export", timestamp: "2023-10-27T13:50:11Z" },
-  { id: "el4", userId: "manager_v2", type: "delete", timestamp: "2023-10-27T13:45:00Z" },
-  { id: "el5", userId: "user_03", type: "ocr", timestamp: "2023-10-27T13:20:15Z" },
-  { id: "el6", userId: "admin_02", type: "update", timestamp: "2023-10-27T13:10:45Z" },
-  { id: "el7", userId: "manager_v2", type: "login", timestamp: "2023-10-27T12:55:30Z" },
-  { id: "el8", userId: "user_05", type: "upload", timestamp: "2023-10-27T12:40:12Z" },
-  { id: "el9", userId: "admin_01", type: "ocr", timestamp: "2023-10-27T12:30:00Z" },
-  { id: "el10", userId: "manager_v2", type: "export", timestamp: "2023-10-27T12:15:55Z" },
+  { id: "el1", userId: "admin_01", type: "ocr", timestamp: "2026-03-10T14:30:05Z" },
+  { id: "el2", userId: "user_03", type: "upload", timestamp: "2026-03-10T14:15:22Z" },
+  { id: "el3", userId: "admin_01", type: "export", timestamp: "2026-03-10T13:50:11Z" },
+  { id: "el4", userId: "manager_v2", type: "delete", timestamp: "2026-03-09T13:45:00Z" },
+  { id: "el5", userId: "user_03", type: "ocr", timestamp: "2026-03-09T13:20:15Z" },
+  { id: "el6", userId: "admin_02", type: "update", timestamp: "2026-03-09T13:10:45Z" },
+  { id: "el7", userId: "manager_v2", type: "login", timestamp: "2026-03-08T12:55:30Z" },
+  { id: "el8", userId: "user_05", type: "upload", timestamp: "2026-03-08T12:40:12Z" },
+  { id: "el9", userId: "admin_01", type: "ocr", timestamp: "2026-03-07T12:30:00Z" },
+  { id: "el10", userId: "manager_v2", type: "export", timestamp: "2026-03-07T12:15:55Z" },
+  { id: "el11", userId: "admin_02", type: "upload", timestamp: "2026-03-06T10:30:00Z" },
+  { id: "el12", userId: "user_05", type: "ocr", timestamp: "2026-03-06T09:15:00Z" },
 ];
 
 const PAGE_SIZE = 10;

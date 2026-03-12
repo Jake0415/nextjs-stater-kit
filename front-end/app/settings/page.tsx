@@ -531,7 +531,7 @@ export default function SettingsPage() {
                   빌드 날짜
                 </p>
                 <p className="text-base font-medium text-slate-900">
-                  2023년 10월 27일
+                  2026년 3월 1일
                 </p>
               </div>
               <div>

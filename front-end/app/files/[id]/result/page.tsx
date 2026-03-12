@@ -145,9 +145,14 @@ export default function OcrResultPage() {
         <div className="flex flex-1 flex-col border-r border-slate-200 bg-white">
           {/* 상단 헤더 바 */}
           <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
-            <h1 className="text-lg font-bold text-slate-900 md:text-2xl">
-              추출된 데이터
-            </h1>
+            <div className="flex flex-col gap-0.5">
+              <h1 className="text-[36px] font-black tracking-tight text-slate-900">
+                추출된 데이터
+              </h1>
+              <p className="text-sm text-slate-500">
+                추출된 텍스트와 이미지 데이터를 확인하고 내보낼 수 있습니다.
+              </p>
+            </div>
             <div className="flex items-center gap-2">
               {/* 검색 */}
               <div className="relative">
