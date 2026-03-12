@@ -20,6 +20,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -28,8 +38,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
 import { ROUTES } from "@/lib/routes";
 import { mockTemplates, currentUser } from "@/lib/mock";
+import type { Template } from "@/lib/types";
 
 // 탭 정의
 const tabs = [
@@ -66,9 +78,51 @@ const changelog = [
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<TabId>("profile");
+
+  // 템플릿 추가 Dialog 상태
   const [templateDialogOpen, setTemplateDialogOpen] = useState(false);
   const [templateName, setTemplateName] = useState("");
   const [templateCode, setTemplateCode] = useState("");
+
+  // 템플릿 수정 Dialog 상태
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editTarget, setEditTarget] = useState<Template | null>(null);
+  const [editName, setEditName] = useState("");
+  const [editCode, setEditCode] = useState("");
+
+  // 템플릿 삭제 Dialog 상태
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<Template | null>(null);
+
+  // 수정 Dialog 열기
+  const handleEditOpen = (tpl: Template) => {
+    setEditTarget(tpl);
+    setEditName(tpl.name);
+    setEditCode(tpl.codeNumber);
+    setEditDialogOpen(true);
+  };
+
+  // 수정 저장
+  const handleEditSave = () => {
+    // TODO: 실제 API 호출로 교체
+    toast.success(`"${editName}" 템플릿이 수정되었습니다.`);
+    setEditDialogOpen(false);
+    setEditTarget(null);
+  };
+
+  // 삭제 Dialog 열기
+  const handleDeleteOpen = (tpl: Template) => {
+    setDeleteTarget(tpl);
+    setDeleteDialogOpen(true);
+  };
+
+  // 삭제 확인
+  const handleDeleteConfirm = () => {
+    // TODO: 실제 API 호출로 교체
+    toast.success(`"${deleteTarget?.name}" 템플릿이 삭제되었습니다.`);
+    setDeleteDialogOpen(false);
+    setDeleteTarget(null);
+  };
 
   // 프로필 폼 상태
   const [username, setUsername] = useState("alex_chen_admin");
@@ -111,6 +165,7 @@ export default function SettingsPage() {
       {/* 탭 콘텐츠 */}
       <div className="flex flex-col gap-12">
         {/* === 사용자 프로필 섹션 === */}
+        {activeTab === "profile" && (
         <Card className="overflow-hidden rounded-xl border-slate-200 shadow-sm">
           <div className="border-b border-slate-200 px-6 py-6">
             <h2 className="text-xl font-bold text-slate-900">사용자 프로필</h2>
@@ -181,8 +236,11 @@ export default function SettingsPage() {
             </Button>
           </div>
         </Card>
+        )}
 
         {/* === 템플릿 관리 섹션 === */}
+        {activeTab === "template" && (
+        <>
         <Card className="overflow-hidden rounded-xl border-slate-200 shadow-sm">
           <div className="flex items-center justify-between border-b border-slate-200 px-6 py-6">
             <div>
@@ -260,18 +318,27 @@ export default function SettingsPage() {
                       <FileText className="size-6 text-brand" />
                     </div>
                     <div className="flex items-center gap-1">
-                      <button className="rounded-full p-2 hover:bg-slate-100">
+                      <button
+                        className="rounded-full p-2 hover:bg-slate-100"
+                        onClick={() => handleEditOpen(tpl)}
+                      >
                         <Pencil className="size-5 text-slate-500" />
                       </button>
-                      <button className="rounded-full p-2 hover:bg-slate-100">
-                        <Trash2 className="size-5 text-slate-500" />
+                      <button
+                        className="rounded-full p-2 hover:bg-red-50"
+                        onClick={() => handleDeleteOpen(tpl)}
+                      >
+                        <Trash2 className="size-5 text-slate-500 hover:text-red-500" />
                       </button>
                     </div>
                   </div>
                   <h3 className="text-lg font-bold text-slate-900">
                     {tpl.name}
                   </h3>
-                  <p className="text-xs text-slate-500">
+                  <p className="mt-1 text-xs text-slate-400">
+                    {tpl.codeNumber}
+                  </p>
+                  <p className="mt-2 text-xs text-slate-500">
                     최종 수정일: {tpl.createdAt}
                   </p>
                 </div>
@@ -280,7 +347,82 @@ export default function SettingsPage() {
           </div>
         </Card>
 
+        {/* 템플릿 수정 Dialog */}
+        <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+          <DialogContent className="max-w-[480px]">
+            <DialogHeader>
+              <DialogTitle>템플릿 수정</DialogTitle>
+              <DialogDescription>
+                템플릿 정보를 수정합니다.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-5 py-4">
+              <div className="space-y-2">
+                <Label className="font-bold">템플릿 명</Label>
+                <Input
+                  placeholder="예: 표준 영수증"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="font-bold">코드 번호</Label>
+                <Input
+                  placeholder="예: TMP-001"
+                  value={editCode}
+                  onChange={(e) => setEditCode(e.target.value)}
+                />
+              </div>
+            </div>
+            <DialogFooter className="-mx-6 -mb-6 bg-slate-50 px-6 py-4">
+              <Button
+                variant="ghost"
+                onClick={() => setEditDialogOpen(false)}
+              >
+                취소
+              </Button>
+              <Button
+                className="bg-brand hover:bg-brand/90"
+                disabled={!editName.trim() || !editCode.trim()}
+                onClick={handleEditSave}
+              >
+                저장
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* 템플릿 삭제 확인 Dialog */}
+        <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>템플릿 삭제</AlertDialogTitle>
+              <AlertDialogDescription>
+                <span className="font-semibold text-slate-900">
+                  &ldquo;{deleteTarget?.name}&rdquo;
+                </span>{" "}
+                템플릿을 삭제하시겠습니까?
+                <br />
+                이 템플릿을 사용 중인 문서가 있을 경우 영향을 받을 수 있습니다.
+                이 작업은 되돌릴 수 없습니다.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>취소</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-red-600 hover:bg-red-700"
+                onClick={handleDeleteConfirm}
+              >
+                삭제
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+        </>
+        )}
+
         {/* === 데이터 관리 섹션 === */}
+        {activeTab === "data" && (
         <Card className="overflow-hidden rounded-xl border-slate-200 shadow-sm">
           <div className="border-b border-slate-200 px-6 py-6">
             <div className="flex items-center gap-2">
@@ -328,19 +470,24 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            {/* 삭제 버튼 */}
+            {/* 삭제 버튼 → 데이터 삭제 페이지로 이동 */}
             <Button
               variant="destructive"
               className="w-full gap-2 py-3 opacity-80"
               disabled={currentUser.role !== "admin"}
+              asChild
             >
-              <Trash2 className="size-6" />
-              모든 사용자 업로드 및 추출된 데이터 삭제 (관리자 전용)
+              <Link href={ROUTES.SETTINGS_DATA}>
+                <Trash2 className="size-6" />
+                모든 사용자 업로드 및 추출된 데이터 삭제 (관리자 전용)
+              </Link>
             </Button>
           </div>
         </Card>
+        )}
 
         {/* === 사용이력 섹션 === */}
+        {activeTab === "logs" && (
         <Card className="rounded-xl border-slate-200 shadow-sm">
           <div className="flex items-center justify-between px-6 py-6">
             <div>
@@ -357,8 +504,10 @@ export default function SettingsPage() {
             </Button>
           </div>
         </Card>
+        )}
 
         {/* === 버전 정보 섹션 === */}
+        {activeTab === "version" && (
         <Card className="overflow-hidden rounded-xl border-slate-200 shadow-sm">
           <div className="border-b border-slate-200 px-6 py-6">
             <div className="flex items-center gap-2">
@@ -433,6 +582,7 @@ export default function SettingsPage() {
             </div>
           </div>
         </Card>
+        )}
       </div>
     </div>
   );

@@ -123,11 +123,11 @@ export default function AnalyticsPage() {
   ).toFixed(1);
 
   return (
-    <div className="mx-auto max-w-[1280px] px-10 py-8">
+    <div className="mx-auto max-w-[1280px] px-10 py-10">
       {/* 페이지 헤더 */}
       <div className="mb-8 flex items-center justify-between">
         <div className="flex flex-col gap-1">
-          <h1 className="text-[30px] font-black tracking-tight text-slate-900">
+          <h1 className="text-[36px] font-black tracking-tight text-slate-900">
             통계 대시보드 개요
           </h1>
           <p className="text-base text-slate-500">

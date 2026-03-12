@@ -6,18 +6,18 @@ import { Upload, RefreshCw } from "lucide-react";
 import type { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/lib/routes";
-import { FileFilterBar } from "@/components/features/files/file-filter-bar";
+import { FileFilterBar, type FileFilterTab } from "@/components/features/files/file-filter-bar";
 import { FileTable } from "@/components/features/files/file-table";
 import { FilePagination } from "@/components/features/files/file-pagination";
 import { DeleteConfirmDialog } from "@/components/features/files/delete-confirm-dialog";
 import { mockDocuments } from "@/lib/mock";
-import type { Document, DocumentStatus } from "@/lib/types";
+import type { Document } from "@/lib/types";
 
 const PAGE_SIZE = 10;
 
 export default function FilesPage() {
   // 필터 상태
-  const [activeTab, setActiveTab] = useState<DocumentStatus | "all">("all");
+  const [activeTab, setActiveTab] = useState<FileFilterTab>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
@@ -30,7 +30,10 @@ export default function FilesPage() {
     let docs = [...mockDocuments];
 
     // 탭 필터
-    if (activeTab !== "all") {
+    if (activeTab === "ocr_ready") {
+      // OCR 추출 대상: uploaded + ocr_failed
+      docs = docs.filter((doc) => doc.status === "uploaded" || doc.status === "ocr_failed");
+    } else if (activeTab !== "all") {
       docs = docs.filter((doc) => doc.status === activeTab);
     }
 
@@ -65,7 +68,7 @@ export default function FilesPage() {
   );
 
   // 탭 변경 시 페이지 초기화
-  const handleTabChange = (tab: DocumentStatus | "all") => {
+  const handleTabChange = (tab: FileFilterTab) => {
     setActiveTab(tab);
     setCurrentPage(1);
   };
@@ -93,10 +96,10 @@ export default function FilesPage() {
       {/* 페이지 헤더 */}
       <div className="mb-8 flex items-end justify-between">
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-[36px] font-black tracking-tight text-slate-900">
             파일 관리
           </h1>
-          <p className="text-sm text-slate-500">
+          <p className="text-base text-slate-500">
             문서 관리에서 OCR 텍스트 추출부터 메타정보 편집까지 한 번에
             처리합니다.
           </p>

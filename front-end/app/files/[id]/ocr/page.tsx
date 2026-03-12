@@ -634,7 +634,7 @@ export default function OcrTriggerPage() {
     <div className="mx-auto max-w-[896px] px-4 py-10 sm:px-6">
       {/* 페이지 헤더 */}
       <div className="mb-8 flex flex-col gap-1">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+        <h1 className="text-[36px] font-black tracking-tight text-slate-900">
           OCR 텍스트 추출
         </h1>
         <p className="text-base text-slate-500">

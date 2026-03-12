@@ -131,10 +131,10 @@ export default function FileUploadPage() {
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
       {/* 페이지 헤더 */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+        <h1 className="text-[36px] font-black tracking-tight text-slate-900">
           파일 업로드 및 정보 입력
         </h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-base text-slate-500">
           {file
             ? "선택된 파일을 확인하고 상세 정보를 입력해 주세요."
             : "업로드할 파일을 선택하고 상세 정보를 입력해 주세요."}

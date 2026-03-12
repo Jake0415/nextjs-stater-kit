@@ -159,18 +159,22 @@ export default function VersionUpdatePage() {
 
   // 업로드 시뮬레이션
   const handleUpload = () => {
-    if (!file || !selectedDoc) return;
+    if (!file) return;
     setUploading(true);
     setProgress(0);
 
-    const nextVer = getNextVersion(selectedDoc.version, versionType);
+    const nextVer = selectedDoc
+      ? getNextVersion(selectedDoc.version, versionType)
+      : getNextVersion("1.0.0", versionType);
+    const displayName = selectedDoc?.filename ?? file.name;
+
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
           setUploading(false);
           toast.success(
-            `${selectedDoc.filename} 버전이 v${nextVer}로 업데이트되었습니다.`
+            `${displayName} 버전이 v${nextVer}로 업데이트되었습니다.`
           );
           router.push(ROUTES.FILES);
           return 100;
@@ -180,16 +184,16 @@ export default function VersionUpdatePage() {
     }, 200);
   };
 
-  const isReady = file && selectedDoc;
+  const isReady = !!file;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
       {/* 페이지 헤더 */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+        <h1 className="text-[36px] font-black tracking-tight text-slate-900">
           버전업 파일 업로드 및 정보 입력
         </h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-base text-slate-500">
           {file
             ? "파일 업로드 준비가 완료되었습니다. 상세 정보를 확인 후 업로드 해주세요."
             : "업로드할 파일을 선택하고 상세 정보를 입력해 주세요."}

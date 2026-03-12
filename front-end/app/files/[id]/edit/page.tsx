@@ -78,11 +78,11 @@ export default function FileEditPage() {
   return (
     <div className="mx-auto max-w-[1000px] px-20 py-8">
       {/* 페이지 헤더 */}
-      <div className="mb-6 flex flex-col gap-1">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+      <div className="mb-8 flex flex-col gap-1">
+        <h1 className="text-[36px] font-black tracking-tight text-slate-900">
           파일 정보 수정
         </h1>
-        <p className="text-sm text-slate-500">
+        <p className="text-base text-slate-500">
           업로드한 사용자 본인만 문서 정보를 수정할 수 있으며, OCR 텍스트 추출을
           수행한 문서는 정보 수정이 불가능합니다.
         </p>
@@ -222,9 +222,17 @@ export default function FileEditPage() {
               파일 삭제
             </Button>
             <Button variant="outline" className="gap-2" asChild>
-              <Link href={ROUTES.FILE_OCR(doc.id)}>
+              <Link
+                href={
+                  doc.status === "ocr_completed"
+                    ? ROUTES.FILE_RESULT(doc.id)
+                    : ROUTES.FILE_OCR(doc.id)
+                }
+              >
                 <FileText className="size-4" />
-                OCR 텍스트 추출
+                {doc.status === "ocr_completed"
+                  ? "추출 완료"
+                  : "OCR 텍스트 추출"}
               </Link>
             </Button>
           </div>

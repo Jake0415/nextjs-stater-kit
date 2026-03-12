@@ -5,7 +5,6 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
   ArrowLeft,
-  ArrowRight,
   Search,
   ImageIcon,
   FileText,
@@ -15,10 +14,10 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/lib/routes";
+import { FilePagination } from "@/components/features/files/file-pagination";
 import { mockDocuments, mockSections, mockSectionImages } from "@/lib/mock";
-import type { Section, SectionImage } from "@/lib/types";
+import type { SectionImage } from "@/lib/types";
 
 // 키워드 색상 매핑
 const keywordColors: Record<string, { bg: string; text: string }> = {
@@ -56,19 +55,23 @@ export default function OcrResultPage() {
   const docId = params.id as string;
   const doc = mockDocuments.find((d) => d.id === docId);
 
-  // 문서의 섹션과 이미지
+  // 문서의 섹션과 이미지 (섹션 ID 기준 필터링)
   const sections = mockSections.filter((s) => s.documentId === docId);
-  const images = mockSectionImages;
+  const sectionIds = new Set(sections.map((s) => s.id));
+  const images = mockSectionImages.filter((img) => sectionIds.has(img.sectionId));
 
   // 상태
   const [viewMode, setViewMode] = useState<"text" | "image">("text");
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedSectionId, setSelectedSectionId] = useState<string | null>(
     sections[0]?.id ?? null
   );
   const [selectedImageId, setSelectedImageId] = useState<string | null>(
     images[0]?.id ?? null
   );
+
+  const RESULT_PAGE_SIZE = 6;
 
   // 검색 필터
   const filteredSections = useMemo(() => {
@@ -91,6 +94,20 @@ export default function OcrResultPage() {
         img.description.toLowerCase().includes(q)
     );
   }, [images, searchQuery]);
+
+  // 현재 뷰의 총 아이템/페이지 계산
+  const currentItems = viewMode === "text" ? filteredSections : filteredImages;
+  const totalResultPages = Math.max(1, Math.ceil(currentItems.length / RESULT_PAGE_SIZE));
+
+  // 페이지네이션된 데이터
+  const paginatedSections = filteredSections.slice(
+    (currentPage - 1) * RESULT_PAGE_SIZE,
+    currentPage * RESULT_PAGE_SIZE
+  );
+  const paginatedImages = filteredImages.slice(
+    (currentPage - 1) * RESULT_PAGE_SIZE,
+    currentPage * RESULT_PAGE_SIZE
+  );
 
   const selectedSection =
     sections.find((s) => s.id === selectedSectionId) ?? null;
@@ -137,7 +154,7 @@ export default function OcrResultPage() {
                 <Input
                   placeholder="추출 데이터 검색..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
                   className="h-10 w-[200px] border-slate-300 bg-slate-50/50 pr-9 text-xs font-bold text-slate-500 md:w-[256px] md:text-sm"
                 />
                 <Search className="absolute right-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
@@ -146,7 +163,7 @@ export default function OcrResultPage() {
               {/* 뷰 토글: 이미지 / 텍스트 */}
               <button
                 type="button"
-                onClick={() => setViewMode("image")}
+                onClick={() => { setViewMode("image"); setCurrentPage(1); }}
                 className={`flex size-10 items-center justify-center rounded-lg border ${
                   viewMode === "image"
                     ? "border-brand/20 bg-brand/10 text-brand"
@@ -157,7 +174,7 @@ export default function OcrResultPage() {
               </button>
               <button
                 type="button"
-                onClick={() => setViewMode("text")}
+                onClick={() => { setViewMode("text"); setCurrentPage(1); }}
                 className={`flex size-10 items-center justify-center rounded-lg border ${
                   viewMode === "text"
                     ? "border-brand/20 bg-brand/10 text-brand"
@@ -200,7 +217,7 @@ export default function OcrResultPage() {
                 </div>
 
                 {/* 테이블 바디 */}
-                {filteredSections.map((section) => {
+                {paginatedSections.map((section) => {
                   const isSelected = selectedSectionId === section.id;
                   return (
                     <button
@@ -236,7 +253,7 @@ export default function OcrResultPage() {
                   );
                 })}
 
-                {filteredSections.length === 0 && (
+                {paginatedSections.length === 0 && (
                   <div className="py-16 text-center text-sm text-slate-400">
                     검색 결과가 없습니다.
                   </div>
@@ -245,7 +262,7 @@ export default function OcrResultPage() {
             ) : (
               /* ━━━ 이미지 뷰 (Figma 1:6020) ━━━ */
               <div className="grid grid-cols-2 gap-6 p-6 lg:grid-cols-3">
-                {filteredImages.map((image) => {
+                {paginatedImages.map((image) => {
                   const isSelected = selectedImageId === image.id;
                   return (
                     <button
@@ -282,7 +299,7 @@ export default function OcrResultPage() {
                   );
                 })}
 
-                {filteredImages.length === 0 && (
+                {paginatedImages.length === 0 && (
                   <div className="col-span-full py-16 text-center text-sm text-slate-400">
                     검색 결과가 없습니다.
                   </div>
@@ -292,34 +309,14 @@ export default function OcrResultPage() {
           </div>
 
           {/* 하단 페이지네이션 */}
-          <div className="flex items-center justify-between border-t border-slate-100 bg-white px-6 py-3">
-            <button
-              type="button"
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-500"
-            >
-              <ArrowLeft className="size-5" />
-              이전
-            </button>
-            <div className="flex items-center gap-6">
-              <span className="text-xs font-bold uppercase tracking-[1.2px] text-slate-400">
-                페이지 1 /{" "}
-                {viewMode === "text"
-                  ? Math.max(1, Math.ceil(filteredSections.length / 6))
-                  : Math.max(1, Math.ceil(filteredImages.length / 6))}
-              </span>
-              <div className="flex items-center gap-1">
-                <span className="flex size-8 items-center justify-center rounded-lg bg-brand text-xs font-bold text-white">
-                  1
-                </span>
-              </div>
-            </div>
-            <button
-              type="button"
-              className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-brand"
-            >
-              다음
-              <ArrowRight className="size-5" />
-            </button>
+          <div className="border-t border-slate-100 bg-white px-6 py-3">
+            <FilePagination
+              currentPage={currentPage}
+              totalPages={totalResultPages}
+              totalItems={currentItems.length}
+              pageSize={RESULT_PAGE_SIZE}
+              onPageChange={setCurrentPage}
+            />
           </div>
         </div>
 

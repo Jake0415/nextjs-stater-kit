@@ -23,14 +23,16 @@ const filterGroup1: { value: string; label: string }[] = [
 ];
 
 const filterGroup2: { value: string; label: string }[] = [
-  { value: "ocr_processing", label: "OCR 추출" },
-  { value: "ocr_completed", label: "완료됨" },
-  { value: "ocr_failed", label: "작업중" },
+  { value: "ocr_ready", label: "OCR 추출" },
+  { value: "ocr_completed", label: "추출 완료" },
+  { value: "ocr_processing", label: "작업중" },
 ];
 
+export type FileFilterTab = DocumentStatus | "all" | "ocr_ready";
+
 interface FileFilterBarProps {
-  activeTab: DocumentStatus | "all";
-  onTabChange: (tab: DocumentStatus | "all") => void;
+  activeTab: FileFilterTab;
+  onTabChange: (tab: FileFilterTab) => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
   dateRange: DateRange | undefined;
@@ -104,7 +106,7 @@ export function FileFilterBar({
             key={tab.value}
             label={tab.label}
             isActive={activeTab === tab.value}
-            onClick={() => onTabChange(tab.value as DocumentStatus | "all")}
+            onClick={() => onTabChange(tab.value as FileFilterTab)}
           />
         ))}
       </div>
@@ -116,7 +118,7 @@ export function FileFilterBar({
             key={tab.value}
             label={tab.label}
             isActive={activeTab === tab.value}
-            onClick={() => onTabChange(tab.value as DocumentStatus | "all")}
+            onClick={() => onTabChange(tab.value as FileFilterTab)}
           />
         ))}
       </div>

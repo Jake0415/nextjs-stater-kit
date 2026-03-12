@@ -73,12 +73,12 @@ export default function AnalyticsDetailPage() {
     : "기간 설정";
 
   return (
-    <div className="mx-auto max-w-[1280px] px-10 py-8">
+    <div className="mx-auto max-w-[1280px] px-10 py-10">
       {/* 페이지 헤더 */}
       <div className="mb-8 flex items-center justify-between">
         <div className="flex flex-col gap-1">
-          <h1 className="text-[30px] font-black tracking-tight text-slate-900">
-            통계 대시보드 개요
+          <h1 className="text-[36px] font-black tracking-tight text-slate-900">
+            통계 상세 분석
           </h1>
           <p className="text-base text-slate-500">
             문서 업로드 처리 현황과 OCR 추출 결과에 대한 통계 개요입니다.

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Calendar, Download, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar, Download, Search } from "lucide-react";
 import type { DateRange } from "react-day-picker";
 import { ko } from "date-fns/locale";
 import { format } from "date-fns";
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar as CalendarUI } from "@/components/ui/calendar";
 import { ROUTES } from "@/lib/routes";
+import { FilePagination } from "@/components/features/files/file-pagination";
 import { mockActivityLogs, formatDateTime } from "@/lib/mock";
 
 // 활동 유형 필터 옵션
@@ -115,14 +116,14 @@ export default function SettingsLogsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-[1280px] px-10 py-12">
+    <div className="mx-auto max-w-[1280px] px-10 py-10">
       {/* 페이지 헤더 */}
-      <div className="mb-10 flex items-end justify-between">
-        <div className="flex flex-col gap-2">
+      <div className="mb-8 flex items-end justify-between">
+        <div className="flex flex-col gap-1">
           <h1 className="text-[36px] font-black tracking-tight text-slate-900">
             시스템 사용이력 상세 조회
           </h1>
-          <p className="text-base text-gray-500">
+          <p className="text-base text-slate-500">
             시스템 내 모든 사용자 활동 로그를 실시간으로 모니터링하고 추적합니다.
           </p>
         </div>
@@ -241,61 +242,14 @@ export default function SettingsLogsPage() {
         </table>
 
         {/* 페이지네이션 */}
-        <div className="flex items-center justify-between border-t border-gray-100 bg-gray-50/50 px-6 py-5">
-          <span className="text-sm text-gray-500">
-            {filteredLogs.length.toLocaleString()}개 중{" "}
-            <span className="font-bold text-gray-900">
-              {(currentPage - 1) * PAGE_SIZE + 1}-
-              {Math.min(currentPage * PAGE_SIZE, filteredLogs.length)}
-            </span>{" "}
-            표시 중
-          </span>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-              className="flex size-9 items-center justify-center rounded border border-gray-200 bg-white text-gray-400 disabled:opacity-50"
-            >
-              <ChevronLeft className="size-[18px]" />
-            </button>
-            {Array.from({ length: Math.min(totalPages, 3) }, (_, i) => i + 1).map(
-              (page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`flex size-9 items-center justify-center rounded text-sm font-medium ${
-                    currentPage === page
-                      ? "bg-brand text-white shadow-sm"
-                      : "border border-gray-200 bg-white text-gray-600"
-                  }`}
-                >
-                  {page}
-                </button>
-              )
-            )}
-            {totalPages > 3 && (
-              <>
-                <span className="px-1 text-gray-400">...</span>
-                <button
-                  onClick={() => setCurrentPage(totalPages)}
-                  className={`flex size-9 items-center justify-center rounded text-sm font-medium ${
-                    currentPage === totalPages
-                      ? "bg-brand text-white shadow-sm"
-                      : "border border-gray-200 bg-white text-gray-600"
-                  }`}
-                >
-                  {totalPages}
-                </button>
-              </>
-            )}
-            <button
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              disabled={currentPage === totalPages || totalPages === 0}
-              className="flex size-9 items-center justify-center rounded border border-gray-200 bg-white text-gray-400 disabled:opacity-50"
-            >
-              <ChevronRight className="size-[18px]" />
-            </button>
-          </div>
+        <div className="border-t border-gray-100 bg-gray-50/50 px-6 py-4">
+          <FilePagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={filteredLogs.length}
+            pageSize={PAGE_SIZE}
+            onPageChange={setCurrentPage}
+          />
         </div>
       </div>
     </div>

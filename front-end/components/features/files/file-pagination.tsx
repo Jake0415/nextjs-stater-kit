@@ -52,8 +52,8 @@ export function FilePagination({
   const endItem = Math.min(currentPage * pageSize, totalItems);
 
   return (
-    <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-      <p className="text-sm text-muted-foreground">
+    <div className="flex items-center justify-between">
+      <p className="shrink-0 text-sm text-muted-foreground">
         전체 {totalItems.toLocaleString()}개 중 {startItem}-{endItem} 표시 중
       </p>
       <Pagination>

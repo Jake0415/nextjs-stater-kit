@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FileText, Pencil, CheckCircle } from "lucide-react";
+import { FileText } from "lucide-react";
 import { TableRow, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,18 +15,12 @@ interface FileTableRowProps {
   onDelete: (doc: Document) => void;
 }
 
-// Figma 디자인 기반 상태별 액션/배지
-function StatusAction({
-  doc,
-}: {
-  doc: Document;
-}) {
-  const canOcr = doc.status === "uploaded" || doc.status === "ocr_failed";
-
-  // OCR 추출 가능: 파란 OCR 추출 버튼 + 편집 아이콘
-  if (canOcr) {
+// 상태별 액션: OCR 추출 / 추출 완료 / 작업중
+function StatusAction({ doc }: { doc: Document }) {
+  // OCR 추출 대상: uploaded, ocr_failed
+  if (doc.status === "uploaded" || doc.status === "ocr_failed") {
     return (
-      <div className="flex items-center justify-end gap-3">
+      <div className="flex items-center justify-end">
         <Button
           asChild
           size="sm"
@@ -34,32 +28,26 @@ function StatusAction({
         >
           <Link href={ROUTES.FILE_OCR(doc.id)}>OCR 추출</Link>
         </Button>
-        <Link
-          href={ROUTES.FILE_EDIT(doc.id)}
-          className="text-slate-400 transition-colors hover:text-slate-600"
-        >
-          <Pencil className="size-[18px]" />
-        </Link>
       </div>
     );
   }
 
-  // 완료됨: 초록 배지
+  // 추출 완료
   if (doc.status === "ocr_completed") {
     return (
       <div className="flex items-center justify-end">
-        <Badge
-          variant="outline"
-          className="gap-1.5 border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-600"
+        <Button
+          asChild
+          size="sm"
+          className="h-7 rounded bg-emerald-600 px-3 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm hover:bg-emerald-700"
         >
-          <CheckCircle className="size-3" />
-          완료됨
-        </Badge>
+          <Link href={ROUTES.FILE_RESULT(doc.id)}>추출 완료</Link>
+        </Button>
       </div>
     );
   }
 
-  // 작업중 (OCR 진행중): 주황 배지
+  // 작업중 (OCR 진행중)
   if (doc.status === "ocr_processing") {
     return (
       <div className="flex items-center justify-end">
@@ -76,17 +64,8 @@ function StatusAction({
     );
   }
 
-  // 기타 상태: 편집 아이콘만
-  return (
-    <div className="flex items-center justify-end">
-      <Link
-        href={ROUTES.FILE_EDIT(doc.id)}
-        className="text-slate-400 transition-colors hover:text-slate-600"
-      >
-        <Pencil className="size-[18px]" />
-      </Link>
-    </div>
-  );
+  // 기타 상태 (draft 등): 표시 없음
+  return <div className="flex items-center justify-end" />;
 }
 
 export function FileTableRow({

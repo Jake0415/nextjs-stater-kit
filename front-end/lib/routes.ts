@@ -15,6 +15,7 @@ export const ROUTES = {
   ANALYTICS: "/analytics",
   ANALYTICS_DETAIL: "/analytics/detail",
   SETTINGS: "/settings",
+  SETTINGS_DATA: "/settings/data",
   SETTINGS_LOGS: "/settings/logs",
   ADMIN_USERS: "/admin/users",
 } as const;
