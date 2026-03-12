@@ -38,8 +38,11 @@ yarn-debug.log*
 # shrimp task manager
 /shrimp_data
 
-# playwright mcp logs
+# playwright mcp
 .playwright-mcp/
+*.png
+!**/public/**/*.png
+!docs/screenshots/**/*.png
 
 # temporary exports
 8789b26b-*/
