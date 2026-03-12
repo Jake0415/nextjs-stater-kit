@@ -71,7 +71,9 @@ const kpiCards = [
 ];
 
 // 바 차트 최대값 계산
-const maxCompleted = Math.max(...mockMonthlyOcrData.map((d) => d.completed));
+const maxValue = Math.max(
+  ...mockMonthlyOcrData.map((d) => Math.max(d.uploaded, d.completed))
+);
 
 // 월 이름 변환
 function getMonthLabel(monthStr: string): string {
@@ -108,19 +110,16 @@ export default function AnalyticsPage() {
       : format(dateRange.from, "yyyy.MM.dd")
     : "기간 설정";
 
-  // 성공률 계산
+  // 총 업로드/OCR 완료 수 계산
+  const totalUploaded = mockMonthlyOcrData.reduce(
+    (sum, d) => sum + d.uploaded,
+    0
+  );
   const totalCompleted = mockMonthlyOcrData.reduce(
     (sum, d) => sum + d.completed,
     0
   );
-  const totalFailed = mockMonthlyOcrData.reduce(
-    (sum, d) => sum + d.failed,
-    0
-  );
-  const successRate = (
-    (totalCompleted / (totalCompleted + totalFailed)) *
-    100
-  ).toFixed(1);
+  const conversionRate = ((totalCompleted / totalUploaded) * 100).toFixed(1);
 
   return (
     <div className="mx-auto max-w-[1280px] px-10 py-10">
@@ -191,32 +190,36 @@ export default function AnalyticsPage() {
 
       {/* 차트 + 최근 활동 */}
       <div className="mb-8 grid grid-cols-[2fr_1fr] gap-8">
-        {/* OCR 추출 진행률 바 차트 */}
+        {/* 업로드 · OCR 추출 현황 바 차트 */}
         <Card className="rounded-xl border-slate-200 shadow-sm">
           <CardContent className="p-8">
             <div className="mb-6 flex items-start justify-between">
               <div>
                 <h2 className="text-xl font-bold text-slate-900">
-                  OCR 추출 진행률
+                  업로드 · OCR 추출 현황
                 </h2>
                 <p className="text-sm text-slate-500">
-                  최근 6개월간의 성과 내역
+                  최근 6개월간 파일 처리 현황
                 </p>
               </div>
               <div className="text-right">
                 <p className="text-[30px] font-black text-brand">
-                  {successRate}%
+                  {conversionRate}%
                 </p>
-                <p className="text-sm font-medium text-green-600">
-                  평균 대비 +0.5%
+                <p className="text-sm font-medium text-slate-500">
+                  OCR 전환율
                 </p>
               </div>
             </div>
             {/* 바 차트 */}
             <div className="flex items-end justify-center gap-4 border-b border-slate-100 pb-3 pt-10">
               {mockMonthlyOcrData.map((data) => {
-                const height = Math.max(
-                  (data.completed / maxCompleted) * 220,
+                const uploadedHeight = Math.max(
+                  (data.uploaded / maxValue) * 220,
+                  20
+                );
+                const completedHeight = Math.max(
+                  (data.completed / maxValue) * 220,
                   20
                 );
                 const current = isCurrentMonth(data.month);
@@ -226,12 +229,20 @@ export default function AnalyticsPage() {
                     className="flex flex-col items-center gap-3"
                     style={{ width: "calc(100% / 6)" }}
                   >
-                    <div
-                      className={`w-12 rounded-lg ${
-                        current ? "bg-brand" : "bg-brand/20"
-                      }`}
-                      style={{ height: `${height}px` }}
-                    />
+                    <div className="flex items-end gap-1">
+                      <div
+                        className={`w-5 rounded-md ${
+                          current ? "bg-brand/30" : "bg-brand/15"
+                        }`}
+                        style={{ height: `${uploadedHeight}px` }}
+                      />
+                      <div
+                        className={`w-5 rounded-md ${
+                          current ? "bg-brand" : "bg-brand/40"
+                        }`}
+                        style={{ height: `${completedHeight}px` }}
+                      />
+                    </div>
                     <span
                       className={`text-xs font-bold ${
                         current ? "text-slate-900" : "text-slate-500"
@@ -242,6 +253,17 @@ export default function AnalyticsPage() {
                   </div>
                 );
               })}
+            </div>
+            {/* 범례 */}
+            <div className="mt-4 flex items-center justify-center gap-6">
+              <div className="flex items-center gap-2">
+                <div className="h-3 w-3 rounded-sm bg-brand/30" />
+                <span className="text-xs font-medium text-slate-500">업로드</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-3 w-3 rounded-sm bg-brand" />
+                <span className="text-xs font-medium text-slate-500">OCR 완료</span>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -277,10 +299,10 @@ export default function AnalyticsPage() {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-sm font-bold text-slate-900 leading-[14px]">
-                      {log.message.split(" ")[0]}
+                      {log.user.name}
                     </span>
                     <span className="mt-1 text-[11px] text-slate-500">
-                      {log.message.substring(log.message.indexOf(" ") + 1)} •{" "}
+                      {log.message} •{" "}
                       {getRelativeTime(log.timestamp)}
                     </span>
                   </div>

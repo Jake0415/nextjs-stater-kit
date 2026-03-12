@@ -101,6 +101,7 @@ export interface Statistics {
 
 export interface MonthlyOcrData {
   month: string;
+  uploaded: number;
   completed: number;
   failed: number;
 }

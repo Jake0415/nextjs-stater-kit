@@ -921,12 +921,12 @@ export const mockStatistics: Statistics = {
 };
 
 export const mockMonthlyOcrData: MonthlyOcrData[] = [
-  { month: "2025-10", completed: 28, failed: 3 },
-  { month: "2025-11", completed: 35, failed: 2 },
-  { month: "2025-12", completed: 42, failed: 4 },
-  { month: "2026-01", completed: 38, failed: 1 },
-  { month: "2026-02", completed: 45, failed: 3 },
-  { month: "2026-03", completed: 10, failed: 1 },
+  { month: "2025-10", uploaded: 35, completed: 28, failed: 3 },
+  { month: "2025-11", uploaded: 42, completed: 35, failed: 2 },
+  { month: "2025-12", uploaded: 50, completed: 42, failed: 4 },
+  { month: "2026-01", uploaded: 44, completed: 38, failed: 1 },
+  { month: "2026-02", uploaded: 52, completed: 45, failed: 3 },
+  { month: "2026-03", uploaded: 24, completed: 10, failed: 1 },
 ];
 
 export const mockUserStats: UserStats[] = [
@@ -998,11 +998,11 @@ export const mockActivityLogs: ActivityLog[] = [
 
 // 상태 라벨 매핑
 export const statusLabels: Record<string, string> = {
-  uploaded: "업로드됨",
-  ocr_processing: "처리 중",
-  ocr_completed: "완료",
-  ocr_failed: "실패",
-  draft: "임시저장",
+  uploaded: "미추출",
+  ocr_processing: "작업중",
+  ocr_completed: "추출 완료",
+  ocr_failed: "추출 실패",
+  draft: "업로드 실패",
 };
 
 // 상태별 배지 색상
